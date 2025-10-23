@@ -8,6 +8,8 @@ const authController = require("./controllers/authController");
 const userController = require("./controllers/userController");
 const doctorController = require("./controllers/doctorController");
 const appointmentController = require("./controllers/appointmentController");
+const adminController = require("./controllers/adminController");
+const nurseController = require("./controllers/nurseController");
 const limiter = require("./middlewares/rateLimiter");
 
 const app = express();
@@ -27,6 +29,8 @@ app.use("/auth", limiter, authController);
 app.use("/user", limiter, userController);
 app.use("/doctor", limiter, doctorController);
 app.use("/appointment", limiter, appointmentController);
+app.use("/admin", limiter, adminController);
+app.use("/nurse", limiter, nurseController);
 
 // Error handler middleware
 app.use(errorHandlerMiddleware);
