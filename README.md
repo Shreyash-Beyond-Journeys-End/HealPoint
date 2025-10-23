@@ -2,6 +2,29 @@
 
 A full-stack hospital management system designed to streamline hospital operations, patient management, and appointment scheduling. HealPoint provides an intuitive interface for patients, doctors, nurses, and administrators to manage healthcare services efficiently.
 
+**🎉 Application is now LIVE and deployed!**
+
+---
+
+## 🚀 Live Application
+
+Access HealPoint online:
+
+| Component | Link | Platform |
+|---|---|---|
+| **Frontend** | [https://heal-point-inky.vercel.app](https://heal-point-inky.vercel.app) | Vercel |
+| **Backend API** | [https://healpoint-backend.onrender.com](https://healpoint-backend.onrender.com) | Render |
+| **GitHub** | [HealPoint Repository](https://github.com/Shreyash-Beyond-Journeys-End/HealPoint) | GitHub |
+
+### Quick Start Using Live App
+
+1. **Open Frontend**: https://heal-point-inky.vercel.app
+2. **Register** a new account or **Login**
+3. **Book appointments** with doctors
+4. **View your profile** and manage bookings
+
+---
+
 ## ✨ Features
 
 ### 👥 User Management
@@ -28,6 +51,8 @@ A full-stack hospital management system designed to streamline hospital operatio
 - Rate limiting on API endpoints
 - CORS protection
 
+---
+
 ## 🛠️ Tech Stack
 
 ### Frontend
@@ -38,6 +63,7 @@ A full-stack hospital management system designed to streamline hospital operatio
 - **Icons**: React Icons
 - **Notifications**: React Hot Toast
 - **Date Handling**: date-fns
+- **Deployment**: Vercel
 
 ### Backend
 - **Runtime**: Node.js
@@ -47,8 +73,14 @@ A full-stack hospital management system designed to streamline hospital operatio
 - **Password Hashing**: bcrypt
 - **Security**: CORS, Rate Limiting, Body Parser
 - **Environment**: dotenv for configuration
+- **Deployment**: Render
 
-## 📋 Prerequisites
+### Database
+- **MongoDB Atlas**: Cloud database (free tier)
+
+---
+
+## 📋 Prerequisites (For Local Development)
 
 Before you begin, ensure you have the following installed:
 - **Node.js** (v16 or higher)
@@ -56,11 +88,13 @@ Before you begin, ensure you have the following installed:
 - **MongoDB** (local or cloud instance)
 - **Git** for version control
 
-## 🚀 Quick Start
+---
+
+## 🚀 Local Development Setup
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/HealPoint.git
+git clone https://github.com/Shreyash-Beyond-Journeys-End/HealPoint.git
 cd HealPoint
 ```
 
@@ -79,7 +113,7 @@ MONGODB_URI=mongodb://localhost:27017/healpoint_hospital
 DB_NAME=healpoint_hospital
 JWT_SECRET=your_super_secret_key_change_in_production
 JWT_EXPIRE=7d
-ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173
+FRONTEND_URL=http://localhost:3000
 RATE_LIMIT_WINDOW_MS=900000
 RATE_LIMIT_MAX_REQUESTS=100
 HOSPITAL_NAME=HealPoint Hospital
@@ -106,9 +140,11 @@ echo "NEXT_PUBLIC_API_URL=http://localhost:4451" > .env.local
 npm run dev
 ```
 
-The application will be available at:
+The local application will be available at:
 - **Frontend**: http://localhost:3000
 - **Backend API**: http://localhost:4451
+
+---
 
 ## 📁 Project Structure
 
@@ -169,6 +205,8 @@ HealPoint/
     └── package.json
 ```
 
+---
+
 ## 🔌 API Endpoints
 
 ### Authentication
@@ -203,6 +241,8 @@ HealPoint/
 - `GET /admin/users` - List all users
 - `GET /admin/appointments` - View all appointments
 
+---
+
 ## 🔐 Authentication & Authorization
 
 The system uses JWT (JSON Web Token) for authentication. After login, a token is issued and must be included in the `Authorization` header for protected routes:
@@ -217,15 +257,18 @@ Authorization: Bearer <token>
 - **Nurse**: Can view patients and medical records
 - **Admin**: Full system access, manage all resources
 
+---
+
 ## ⚙️ Environment Variables
 
 ### Backend (.env)
 ```
 PORT=4451
-NODE_ENV=development
-MONGODB_URI=mongodb://localhost:27017/healpoint_hospital
-JWT_SECRET=your_secret_key
+NODE_ENV=production
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/healpoint_hospital
+JWT_SECRET=your_super_secret_key_change_in_production
 JWT_EXPIRE=7d
+FRONTEND_URL=https://your-vercel-url.vercel.app
 RATE_LIMIT_WINDOW_MS=900000
 RATE_LIMIT_MAX_REQUESTS=100
 HOSPITAL_NAME=HealPoint Hospital
@@ -234,18 +277,20 @@ HOSPITAL_EMAIL=info@healpoint.com
 
 ### Frontend (.env.local)
 ```
-NEXT_PUBLIC_API_URL=http://localhost:4451
+NEXT_PUBLIC_API_URL=https://your-backend-url.onrender.com
 ```
+
+---
 
 ## 🐛 Troubleshooting
 
-### Backend won't start
+### Backend won't start (Local)
 - Ensure MongoDB is running: `mongod`
 - Check if port 4451 is available
 - Verify all environment variables are set correctly
 - Check logs for specific error messages
 
-### Frontend npm run dev not working
+### Frontend npm run dev not working (Local)
 - Run `npm install` to ensure all dependencies are installed
 - Clear cache: `rm -rf .next && npm run dev`
 - Ensure backend is running on port 4451
@@ -256,6 +301,14 @@ NEXT_PUBLIC_API_URL=http://localhost:4451
 - Check connection string in config.js
 - Ensure database name is correct
 - Check firewall settings for MongoDB port
+- Whitelist IP in MongoDB Atlas (0.0.0.0/0 for development)
+
+### CORS Error
+- Ensure `FRONTEND_URL` environment variable is set correctly in backend
+- Add your frontend URL to the allowed origins in `backend/middlewares/cors.js`
+- Redeploy backend after making changes
+
+---
 
 ## 📦 Available Scripts
 
@@ -274,18 +327,35 @@ npm run lint           # Run ESLint
 npm run type-check     # Check TypeScript types
 ```
 
-## 🚀 Deployment
+---
 
-### Backend Deployment
-1. Set `NODE_ENV=production` in .env
-2. Update `MONGODB_URI` to production database
-3. Set strong `JWT_SECRET`
-4. Deploy to hosting service (Heroku, Railway, AWS, etc.)
+## 🚀 Production Deployment
 
-### Frontend Deployment
-1. Build: `npm run build`
-2. Deploy to Vercel, Netlify, or your hosting provider
-3. Set `NEXT_PUBLIC_API_URL` to production backend URL
+### Currently Deployed On:
+
+**Backend (Render)**
+- Service: healpoint-backend
+- URL: https://healpoint-backend.onrender.com
+- Status: ✅ Active
+
+**Frontend (Vercel)**
+- Service: heal-point-inky
+- URL: https://heal-point-inky.vercel.app
+- Status: ✅ Active
+
+**Database (MongoDB Atlas)**
+- Cluster: HealPoint Hospital
+- Plan: Free Tier
+- Status: ✅ Active
+
+### To Deploy Your Own:
+
+1. **Database**: Create MongoDB Atlas cluster and get connection string
+2. **Backend**: Deploy to Render with environment variables
+3. **Frontend**: Deploy to Vercel with `NEXT_PUBLIC_API_URL` pointing to backend
+4. **CORS**: Update `FRONTEND_URL` in backend environment variables
+
+---
 
 ## 🤝 Contributing
 
@@ -295,13 +365,16 @@ npm run type-check     # Check TypeScript types
 4. Push to branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
 
-This project is licensed under the ISC License - see the package.json file for details.
+---
 
 ## 👨‍💻 Author
 
 **HealPoint Development Team**
+
+- **GitHub**: [Shreyash Beyond Journeys End](https://github.com/Shreyash-Beyond-Journeys-End)
+
+---
 
 ## 📞 Support
 
@@ -309,4 +382,20 @@ For support, email info@healpoint.com or open an issue on GitHub.
 
 ---
 
+## 🎯 Key Milestones
+
+- ✅ Project initialized
+- ✅ Backend setup with Express & MongoDB
+- ✅ Frontend setup with Next.js & Tailwind
+- ✅ Authentication implemented
+- ✅ API endpoints created
+- ✅ Backend deployed on Render
+- ✅ Frontend deployed on Vercel
+- ✅ CORS configured
+- ✅ Application is LIVE! 🎉
+
+---
+
 **Made with ❤️ for better healthcare management**
+
+**🌐 Visit Live App**: https://heal-point-inky.vercel.app
