@@ -3,7 +3,6 @@ const router = express.Router();
 const User = require("../models/user");
 const ContactUs = require("../models/contactUs");
 
-// Add contact form submission
 router.post("/add-contact-us", async (req, res) => {
   const { name, phone, email, message } = req.body;
 
@@ -16,24 +15,27 @@ router.post("/add-contact-us", async (req, res) => {
     });
 
     const savedContactUs = await newContactUs.save();
+
     res.status(200).json(savedContactUs);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-// Get all users
-router.get("/get-users", async (req, res) => {
-  try {
-    const foundUsers = await User.find();
-    if (!foundUsers) res.json("No user found");
-    res.status(200).json(foundUsers);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+router.get("/get-users" , async (req ,res) =>{
 
-// Update user profile
+  try {
+    const foundUsers =  await User.find();
+    if(!foundUsers) res.json("No user found");
+    res
+    .status(200)
+    .json(foundUsers);
+  } catch (error) {
+    
+  }
+
+} );
+
 router.put("/profile-update", async (req, res) => {
   const { userId, updatedProfile } = req.body;
   try {
@@ -46,11 +48,9 @@ router.put("/profile-update", async (req, res) => {
     res.status(200).json({ status: "Success", user: updatedUser });
   } catch (error) {
     console.error("Error updating profile:", error.message);
-    res.status(500).json({ error: error.message });
   }
 });
 
-// Get medical history for user
 router.get("/get-medications/:userEmail", async (req, res) => {
   const userEmail = req.params.userEmail;
   try {
@@ -70,11 +70,11 @@ router.get("/get-medications/:userEmail", async (req, res) => {
   }
 });
 
-// Add medication to medical history
 router.post('/add-medications/:userEmail', async (req, res) => {
   try {
     const { userEmail } = req.params;
     const { name, dosage, frequency } = req.body;
+
 
     const user = await User.findOne({ email: userEmail });
     if (!user) {
@@ -90,8 +90,9 @@ router.post('/add-medications/:userEmail', async (req, res) => {
     res.status(201).json(user);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Server Error' });
+    res.status(500).send('Server Error');
   }
 });
+
 
 module.exports = router;

@@ -9,17 +9,15 @@ const Department = require("../models/department");
 const ContactUs = require("../models/contactUs");
 const NewsLetter = require("../models/newsLetter");
 
-// Get all patients
 router.get("/get-users", async (req, res) => {
   try {
-    const users = await User.find({ role: "patient" });
+    const users = await User.find({role:"patient"});
     res.json(users);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-// Delete user
 router.delete("/delete-user/:id", async (req, res) => {
   try {
     const deletedUser = await User.findByIdAndDelete(req.params.id);
@@ -29,17 +27,16 @@ router.delete("/delete-user/:id", async (req, res) => {
   }
 });
 
-// Get all contact form submissions
 router.get("/get-contacts", async (req, res) => {
   try {
     const contacts = await ContactUs.find({});
+
     res.json(contacts);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-// Add new department
 router.post("/add-department", async (req, res) => {
   const { name, description, head, staff } = req.body;
   try {
@@ -64,7 +61,6 @@ router.post("/add-department", async (req, res) => {
   }
 });
 
-// Delete department
 router.delete("/delete-department/:id", async (req, res) => {
   try {
     const deletedDept = await Department.findByIdAndDelete(req.params.id);
@@ -74,7 +70,6 @@ router.delete("/delete-department/:id", async (req, res) => {
   }
 });
 
-// Get all departments with head name
 router.get("/get-department", async (req, res) => {
   try {
     const departments = await Department.find({}).populate("head", "name");
@@ -84,49 +79,49 @@ router.get("/get-department", async (req, res) => {
   }
 });
 
-// Get statistics/count
+
 router.get("/get-count", async (req, res) => {
   try {
-    const patientCount = await User.countDocuments({ role: "patient" }).exec();
-    const queriesCount = await ContactUs.countDocuments({}).exec();
-    const departmentCount = await Department.countDocuments({}).exec();
-    const doctorCount = await Doctor.countDocuments({}).exec();
-    const nurseCount = await Nurse.countDocuments({}).exec();
+      const patientCount = await User.countDocuments({ role: "patient" }).exec();
+      const queriesCount = await ContactUs.countDocuments({}).exec();
+      const departmentCount = await Department.countDocuments({}).exec();
+      const doctorCount = await Doctor.countDocuments({}).exec();
+      const nurseCount = await Nurse.countDocuments({}).exec();
 
-    res.json({
-      patientCount,
-      queriesCount,
-      departmentCount,
-      doctorCount,
-      nurseCount,
-    });
+      res.json({
+          patientCount,
+          queriesCount,
+          departmentCount,
+          doctorCount,
+          nurseCount,
+      });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+      res.status(500).json({ error: error.message });
   }
 });
 
-// Add newsletter subscriber
-router.post("/new-letter", async (req, res) => {
-  const { email } = req.body;
+
+router.post("/new-letter",async(req,res)=>{
+  const {email}=req.body
   try {
     const newNewsLetter = new NewsLetter({
       email,
     });
     const savedNewsLetter = await newNewsLetter.save();
-    res.status(200).json({ status: "Saved", savedNewsLetter });
+    res.status(200).json({status:"Saved",savedNewsLetter});
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-});
+})
 
-// Get all newsletter subscribers
-router.get("/get-sent-newsletter", async (req, res) => {
+
+router.get("/get-sent-newsletter",async(req,res)=>{
   try {
     const sentNewsletters = await NewsLetter.find();
     res.json(sentNewsletters);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-});
+})
 
 module.exports = router;

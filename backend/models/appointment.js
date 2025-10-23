@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const appointmentSchema = new Schema({
   doctor: {
-    type: String,
+    type:String,
     required: true,
   },
   patient: {
@@ -14,14 +14,14 @@ const appointmentSchema = new Schema({
     type: String,
     required: true,
   },
-  time: {
+  time:{
     type: String,
     default: "",
   },
   reason: {
     type: String,
   },
-  phone: {
+  phone:{
     type: String,
     required: true,
   },
@@ -33,7 +33,8 @@ const appointmentSchema = new Schema({
   notes: {
     type: String,
   },
-  email: {
+
+  email:{
     type: String,
     required: true,
   }
