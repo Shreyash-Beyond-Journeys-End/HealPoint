@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const config = require("./config");
+const connectToDatabase = require("./db/mongoose");
 
 const app = express();
 
@@ -16,12 +17,13 @@ app.get("/", (req, res) => {
 // Start Server
 (async () => {
   try {
+    await connectToDatabase();
     const port = config.server.port;
     const server = app.listen(port, () => {
       console.log(`✅ Server running on port: ${port}`);
       console.log(`🌍 Environment: ${config.server.nodeEnv}`);
     });
   } catch (error) {
-    console.error(" Failed to start the server:", error.message);
+    console.error("❌ Failed to start the server:", error.message);
   }
 })();
