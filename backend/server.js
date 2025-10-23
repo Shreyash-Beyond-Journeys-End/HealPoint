@@ -5,6 +5,9 @@ const connectToDatabase = require("./db/mongoose");
 const corsMiddleware = require("./middlewares/cors");
 const errorHandlerMiddleware = require("./middlewares/errorHandler");
 const authController = require("./controllers/authController");
+const userController = require("./controllers/userController");
+const doctorController = require("./controllers/doctorController");
+const appointmentController = require("./controllers/appointmentController");
 const limiter = require("./middlewares/rateLimiter");
 
 const app = express();
@@ -19,8 +22,11 @@ app.get("/", (req, res) => {
   res.json({ message: "HealPoint Backend Server Running" });
 });
 
-// Auth routes
+// Routes with rate limiting
 app.use("/auth", limiter, authController);
+app.use("/user", limiter, userController);
+app.use("/doctor", limiter, doctorController);
+app.use("/appointment", limiter, appointmentController);
 
 // Error handler middleware
 app.use(errorHandlerMiddleware);
